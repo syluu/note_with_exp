@@ -1,0 +1,21 @@
+if(in_array($_SERVER['REMOTE_ADDR'],array(' 222.252.106.93'))){
+			Zend_Debug::dump("Testttt"); die();
+}
+
+if(in_array($_SERVER['REMOTE_ADDR'],array('222.252.106.93'))){
+    var_dump("Testttt"); 
+    var_dump("<pre>"); 
+    var_dump(); 
+    var_dump("</pre>"); 
+    die();
+  }
+  
+Mage::log("Start Log: ", null, 'leric.log', true);
+public function xlog($message = 'null')
+    {
+        $log = print_r($message, true);
+        $logger = new \Zend\Log\Logger;
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test.log');
+        $logger->addWriter($writer);
+        $logger->info($log);
+    }
