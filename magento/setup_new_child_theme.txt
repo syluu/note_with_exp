@@ -1,0 +1,83 @@
+Create new theme from Luma theme
+
+1. Create a child theme folder named {parent-theme-name}_child in the below-mentioned folder path.
+Magento root folder/app/design/frontend/{theme-vendor-name}/{parent-theme-name}_child
+Ex: app/design/frontend/Hblab/luma_child/
+
+2. Create file theme.xml inside the child theme to specify the parent theme inherited by the child theme.
+Ex: app/design/frontend/Hblab/luma_child/theme.xml
+
+<theme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/theme.xsd">
+    <title>Hblab</title>
+    <parent>Magento/luma</parent>
+    <media>
+        <preview_image>media/preview.png</preview_image>
+    </media>
+</theme>
+
+3. Create a registration.php file for registering your child theme.
+app/design/frontend/Hblab/luma_child/registration.php
+
+<?php
+\Magento\Framework\Component\ComponentRegistrar::register(
+    \Magento\Framework\Component\ComponentRegistrar::THEME,
+    'frontend/Hblab/luma_child',
+    __DIR__
+);
+
+4. Create composer.json.
+app/design/frontend/Hblab/luma_child/composer.json
+
+{
+  "name": "hblab/theme-frontend-luma-child",
+  "description": "N/A",
+  "require": {
+    "php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0|~7.2.0",
+    "magento/theme-frontend-luma": "100.0.*",
+    "magento/framework": "100.0.*"
+  },
+  "type": "magento2-theme",
+  "version": "100.0.1",
+  "license": [
+    "OSL-3.0",
+    "AFL-3.0"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ]
+  }
+}
+
+5. Create web directory inside the child theme with the below empty directories and files.
+app/design/frontend/Hblab/
+app/design/frontend/Hblab/luma_child/
+app/design/frontend/Hblab/luma_child/i18n/en_US.csv
+app/design/frontend/Hblab/luma_child/Magento_Theme/templates/html/copyright.phtml =>example for override template
+app/design/frontend/Hblab/luma_child/media/preview.png
+app/design/frontend/Hblab/luma_child/web/css/source/_extend.less => file for extend css
+
+6. Provide access/permission for child theme directories and files.
+sudo chmod -R 777 *
+Note: If you are working in a local or development server you can provide 777 access for both files and directories. 
+If live server, then you have to give 755 for directory and 644 for files.
+
+7. The created child theme will be displayed in the admin panel.
+Navigate to
+
+Magento Admin Menu->Content->Configuration Themes
+
+Select child theme in admin configuration.
+
+Navigate to
+
+Magento Admin Menu->Content->Design->Configuration->Select Child theme->save configuration. 
+
+Flush the cache.
+
+8. Now take a backup of your pub/static folder for images, CSS, and js. Then delete the static folder and run static content deploy.
+9. Navigate to the Magento root folder in your terminal and deploy static content using this command.
+php bin/magento setup:static-content:deploy -f
+
+11. The newly created child theme will also deploy in the pub/static folder.
+12. We have created the child theme successfully. Now you can start customizing your child theme.
