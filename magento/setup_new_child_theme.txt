@@ -81,3 +81,9 @@ php bin/magento setup:static-content:deploy -f
 
 11. The newly created child theme will also deploy in the pub/static folder.
 12. We have created the child theme successfully. Now you can start customizing your child theme.
+
+#Note:
+If file styles-l.css and styles-m.css not update after change file app/design/frontend/Hblab/luma_child/web/css/source/_extend.less, please delete cache fil, run:
+rm -rf pub/static/* var/view_preprocessed/* generated/code/*
+php bin/magento c:f
+
