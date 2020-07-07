@@ -1,0 +1,12 @@
+1. Create new store view:
+In menu backend:
+Store->Settings->All Stores 
+Click button "Create Store View" -> fill store view info -> Save
+
+2. Select Locale
+In menu backend:
+Store->Settings->Configuration->General->General->Locale Options
+Select in field "Locale" -> Save Config
+Ex: Select "Japanese (Japan)"
+
+Flush cache
