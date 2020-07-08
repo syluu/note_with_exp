@@ -4,6 +4,8 @@ Store->Settings->All Stores
 Click button "Create Store View" -> fill store view info -> Save
 
 2. Select Locale
+Note: Switch to new store view before edit locale
+
 In menu backend:
 Store->Settings->Configuration->General->General->Locale Options
 Select in field "Locale" -> Save Config
