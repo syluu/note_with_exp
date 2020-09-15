@@ -1,0 +1,15 @@
+- test Cron job
+        <job name="customcredit_event_test" instance="MW\Customcredit\Cron\BirthdayCredit" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+Run command: sudo php bin/magento cron:run --group 'default'
+
+- If have 2 test cronjob:
+        <job name="customcredit_event_test_birthday" instance="MW\Customcredit\Cron\BirthdayCredit" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+        <job name="customcredit_event_test_event" instance="MW\Customcredit\Cron\Events" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+
+Only Cron job after (cron customcredit_event_test_event)  will run
