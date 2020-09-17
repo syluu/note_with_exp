@@ -1,0 +1,188 @@
+http://www.magesolution.com/blog/how-to-create-customer-attribute-in-magento2
+
+How to create Customer Attribute in Magento2
+Jul 11, 2019 Trang Truong Quynh
+As Magento 2 is more and more friendly to user, it is simple to create your own attributes for multi purposes. This blog will help you to create your own customer attributes in Magento 2 programmatically which allow adding more specific properties.
+
+First of all, you should have your own Magento 2 Extension. See how to create your module here.
+
+
+Step 1: Create InstallData.php file
+Remember that this file runs only once when you first enable your module. To do upgrade, create your UpgradeData.php file.
+
+This class should implement Magento\Framework\Setup\InstallDataInterface and import some necessary Magento classes.
+
+Refer to below content for more details.
+
+Path: app/code/your_vendor/your_module/Setup/InstallData.php
+
+namespace YourVendor\YourModule\Setup;
+
+use Magento\Eav\Setup\EavSetupFactory;
+use Magento\Framework\Setup\UpgradeDataInterface;
+use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\Setup\ModuleDataSetupInterface;
+use Magento\Eav\Model\Config;
+use Magento\Customer\Model\Customer;
+use Magento\Customer\Setup\CustomerSetupFactory;
+use Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
+
+class InstallData implements InstallDataInterface
+{
+    /**
+     * @var CustomerSetupFactory
+     */
+    protected $customerSetupFactory;
+
+    /**
+     * @var AttributeSetFactory
+     */
+    private $attributeSetFactory;
+
+    /**
+     * @var Config
+     */
+    private $eavConfig;
+
+    /**
+     * @var
+     */
+    private $eavSetupFactory;
+
+    public function __construct(EavSetupFactory $eavSetupFactory, CustomerSetupFactory $customerSetupFactory) 
+    {
+       $this->eavSetupFactory = $eavSetupFactory;
+       $this->customerSetupFactory = $customerSetupFactory;
+    }
+
+   /**
+    * {@inheritdoc}
+    * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+    */
+    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    {
+        /** @var CustomerSetup $customerSetup */
+        $customerSetup = $this->customerSetupFactory->create(['setup' => $setup]);
+        $customerEntity = $customerSetup->getEavConfig()->getEntityType('customer');
+        $attributeSetId = $customerEntity->getDefaultAttributeSetId();
+
+        /** @var $attributeSet AttributeSet */
+        $attributeSet = $this->attributeSetFactory->create();
+        $attributeGroupId = $attributeSet->getDefaultGroupId($attributeSetId);
+
+        $customerSetup->addAttribute(Customer::ENTITY, 'your_sample_attribute', [
+            'type' => 'int',
+            'label' => 'Your Sample Attribute',
+            'input' => 'boolean',
+            'required' => false,
+            'visible' => true,
+            'source' => '',
+            'backend' => '',
+            'user_defined' => false,
+            'is_user_defined' => false,
+            'sort_order' => 1000,
+            'is_used_in_grid' => false,
+            'is_visible_in_grid' => false,
+            'is_filterable_in_grid' => false,
+            'is_searchable_in_grid' => false,
+            'position' => 1000,
+            'default' => 0,
+            'system' => 0,
+         ]);
+
+         $attribute = $customerSetup->getEavConfig()->getAttribute(Customer::ENTITY, 'your_sample_attribute')
+            ->addData([
+                 'attribute_set_id' => $attributeSetId,
+                 'attribute_group_id' => $attributeGroupId,
+                 'used_in_forms' => ['adminhtml_customer'],
+          ]);
+
+         $attribute->save();
+}
+
+Step 2: Modify data input for each kind of attribute
+There are 6 types of data and 12 kinds of input, please choose what suits your requirements.
+
+-Data types:
+static
+varchar
+int
+text
+datetime
+decimal
+-Input types:
+boolean
+select
+text
+image
+media_image
+price
+date
+textarea
+gallery
+multiselect
+hidden
+multiline
+Note that, for input boolean, your source should be empty while for select and multiselect input, your source should have the path of class which declares your options with function getAllOptions() as below:
+
+<?php
+namespace YourVendor\YourModule\Model\Entity\Attribute\Source;
+
+use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
+
+class AvailableOptions extends AbstractSource
+{
+   public function getAllOptions() 
+   {
+     return [ 'option1' => [
+                'label' => 'Option 1',
+                'value' => 'option1'
+            ],
+            'option2' => [
+                'label' => 'Option 2',
+                'value' => 'option2'
+            ],
+            'option3' => [
+                'label' => 'Option 3',
+                'value' => 'option3'
+            ],
+            'option4' => [
+                'label' => 'Option 4',
+                'value' => 'option4'
+            ]
+        ];
+    }
+}
+Step 3: [Optional] Customize layout
+This step helps you change layout of customer edit form.
+
+Create layout file as app/code/your_vendor/your_module/view/adminhtml/ui_component/customer_form.xml
+
+In this file you can add sort order or default value for your attribute, etc. Have a look at this example:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <fieldset name="customer">
+        <field name="your_sample_attribute1" sortOrder="5" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="number">0</item>
+                </item>
+            </argument>
+        </field>
+        <field name="your_sample_attribute2" sortOrder="6" formElement="multiselect">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="number">0</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+</form>
+Step 4: Enable your module and see the result
+Respectively run these command in your root folder terminal:
+
+php bin/magento module:status
+php bin/magento module:enable yourVendor_yourModule
+php bin/magento setup:upgrade
