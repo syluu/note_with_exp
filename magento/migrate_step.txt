@@ -3,7 +3,7 @@ mysqldump -u proteink_pro -p proteink_pro > backup_database_180320.sql
 
 Zip: zip -r backup_database_180320.zip backup_database_180320.sql
 
-download database: wget http://proteinking.com.au/backup_database_180320.zip
+download database: wget http://domain.com/backup_database_180320.zip
 
 Unzip: unzip backup_database_190320.zip -d ./
 
