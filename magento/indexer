@@ -1,0 +1,36 @@
+This will give the list of indexes name:
+
+php bin/magento indexer:info
+Output:
+
+design_config_grid                       Design Config Grid
+customer_grid                            Customer Grid
+catalog_category_product                 Category Products
+catalog_product_category                 Product Categories
+catalog_product_price                    Product Price
+catalog_product_attribute                Product EAV
+catalogsearch_fulltext                   Catalog Search
+cataloginventory_stock                   Stock
+catalogrule_rule                         Catalog Rule Product
+catalogrule_product                      Catalog Product Rule
+This will give the list of indexes status:
+
+php bin/magento indexer:status
+Output:
+
+Design Config Grid:                                Ready
+Customer Grid:                                     Ready
+Category Products:                                 Ready
+Product Categories:                                Ready
+Product Price:                                     Ready
+Product EAV:                                       Ready
+Catalog Search:                                    Ready
+Stock:                                             Processing
+Catalog Rule Product:                              Ready
+Catalog Product Rule:                              Ready
+If you want to reset all the indexes, you can run the following command:
+
+php bin/magento indexer:reset
+If you want to reset particular index (e.g. cataloginventory_stock), you can run the following command:
+
+php bin/magento indexer:reset cataloginventory_stock
