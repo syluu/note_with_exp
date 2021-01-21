@@ -1,0 +1,21 @@
+Version PHP 5.1.6 and above:
+
+1. Enter the MySQL shell and run the following command:
+
+set global slow_query_log = 'ON';
+
+2. Enable any other desired options. Here are some common examples:
+
+Log details for queries expected to retrieve all rows instead of using an index:
+
+   set global log_queries_not_using_indexes = 'ON'
+Set the path to the slow query log:
+
+  set global slow_query_log_file ='/var/log/mysql/slow-query.log';
+Set the amount of time a query needs to run before being logged:
+
+   set global long_query_time = 20;
+     (default is 10 seconds)
+3. Confirm the changes are active by entering the MySQL shell and running the following command:
+
+show variables like '%slow%';
