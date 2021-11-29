@@ -109,6 +109,7 @@ upstream fastcgi_backend {
         server  unix:/var/run/php/php7.2-fpm.sock;
 }
 ....
+6.1 Create config virtual host
 create new file magento2.local in /etc/nginx/sites-available/
 with content:
 server {
@@ -116,6 +117,9 @@ server {
 	set $MAGE_ROOT /var/www/html/magento2.local/;
   include /var/www/html/magento2.local/nginx.conf.sample;
 }
+
+6.2 Link config file
+sudo ls -s /etc/nginx/sites-available/magento.local.conf /etc/nginx/sites-enabled/
 
 
 
