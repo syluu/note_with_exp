@@ -145,6 +145,9 @@ sudo service php7.2-fpm restart
 -----------------------------------BUILD MAGENTO SITE--NON-HTTPS---------------------------------------------------
 php bin/magento setup:install --base-url="http://magento2.local/" --db-host="localhost" --db-name="magento231" --db-user="magento" --db-password="magento123" --admin-firstname="admin" --admin-lastname="admin" --admin-email="admin@localhost.com" --admin-user="admin" --admin-password="admin123" --language="en_US" --currency="USD" --timezone="America/Chicago" --use-rewrites="1" --backend-frontname="admin"
 
+--- For 2.4 ( add elasticsearch)
+php bin/magento setup:install --base-url="http://m242.com/" --db-host="mysql" --db-name="m242" --db-user="root" --db-password="root" --admin-firstname="admin" --admin-lastname="admin" --admin-email="admin@localhost.com" --admin-user="admin" --admin-password="admin123" --language="en_US" --currency="USD" --timezone="America/Chicago" --use-rewrites="1" --backend-frontname="admin" --elasticsearch-host="elasticsearch"
+
 -----------------------------------BUILD MAGENTO SITE---HTTPS-----------------------------------------------------
 php bin/magento setup:install --base-url="https://magento2.local/" --db-host="localhost" --db-name="magento231" --db-user="magento" --db-password="magento123" --admin-firstname="admin" --admin-lastname="admin" --admin-email="admin@localhost.com" --admin-user="admin" --admin-password="admin123" --language="en_US" --currency="USD" --timezone="America/Chicago" --use-rewrites="1" --backend-frontname="admin" --use-secure="1" --base-url-secure="https://magento2.local/" --use-secure-admin="1"
 
